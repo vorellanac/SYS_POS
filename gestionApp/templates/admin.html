@@ -1,0 +1,53 @@
+{% extends 'base.html' %}  
+{% load static %}  
+{% block content %}  
+{% include 'navbar.html' %}  
+
+<div class="container mt-5">  
+    <div class="alert alert-success display-1 text-center">  
+        <img src="{% static 'images/venta.png' %}" width="100px" alt="Logo"> Bienvenid@: {{ user.username }}           
+    </div>  
+    <div class="row">  
+        <div class="col text-center">  
+            <a href="{% url 'crear_articulo' %}" class="btn p-3 btn-success w-100">Crear Artículo</a>  
+            <img src="{% static 'images/sku.png' %}" width="110px" class="img-fluid mt-5" alt="vender">   
+        </div>  
+
+        <div class="col text-center">  
+            {% if venta.total|length > 0 %}  
+                <a href="{% url 'vender_articulo' %}" class="btn p-3 btn-danger w-100">Reporte de Ventas</a> <!-- Link habilitado si hay ventas -->  
+            {% else %}  
+                <a href="{% url 'listar_ventas' %}" class="btn p-3 btn-danger w-100" disabled>Reporte de Ventas</a> <!-- Link deshabilitado si no hay artículos -->  
+            {% endif %}  
+            <img src="{% static 'images/reports.png' %}" width="95px" class="img-fluid mt-5" alt="venta">  
+        </div>  
+
+        <div class="col text-center">  
+            <a href="{% url 'listar_articulos' %}" class="btn p-3 btn-secondary w-100">Administración inventario</a>  
+            <img src="{% static 'images/articulos.png' %}" width="100px" class="img-fluid mt-5" alt="Artículos">   
+        </div>  
+
+        <div class="col text-center">  
+            <a href="{% url 'administrar_usuarios' %}" class="btn p-3 btn-warning w-100">Administración de usuario</a>  
+            <img src="{% static 'images/usuarios.png' %}" width="100px" class="img-fluid mt-5" alt="Artículos">   
+        </div>  
+
+        <div class="col text-center">   
+            <a href="{% url 'consultar_api' %}" class="btn p-3 btn-primary w-100">Indicadores Financieros</a>  
+            <img src="{% static 'images/api.png' %}" width="100px" class="img-fluid mt-5" alt="API">   
+        </div>   
+    </div>  
+
+    {% comment %} Nuevas funciones EVA 4 {% endcomment %}  
+    <div class="row">  
+        <div class="col text-center">  
+            <a href="{% url 'articulo-list' %}" class="btn p-3 btn-success w-100">Crear artículos vía API</a>  
+            <img src="{% static 'images/api.png' %}" width="110px" class="img-fluid mt-5" alt="vender">   
+        </div>   
+    
+              
+    </div>  
+</div>  
+
+{% include 'footer.html' %}  
+{% endblock %}

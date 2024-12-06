@@ -1,0 +1,43 @@
+{% extends 'base.html' %}  
+{% load static %}  
+{% block content %}  
+    {% include 'navbar.html' %}  
+    <div class="container mt-5"> 
+        <div class="container">  
+            <div class="alert alert-success display-1 text-center">  
+                <img src="{% static 'images/venta.png' %}" width="100px" alt="Logo"> Menu registro 
+            </div> 
+            <h1>Crear un nuevo producto</h1>          
+            <form method="POST">  
+                {% csrf_token %}  
+                <table class="table">  
+                    <tbody>  
+                        <tr>  
+                            <td><label for="id_codigo">Código:</label></td>  
+                            <td>{{ form.codigo }}</td>  
+                        </tr>  
+                        <tr>  
+                            <td><label for="id_descripcion">Descripción:</label></td>  
+                            <td>{{ form.descripcion }}</td>  
+                        </tr>  
+                        <tr>  
+                            <td><label for="id_categoria">Categoría:</label></td>  
+                            <td>{{ form.categoria }}</td>  
+                        </tr>  
+                        <tr>  
+                            <td><label for="id_precio">Precio:</label></td>  
+                            <td>{{ form.precio }}</td>  
+                        </tr>  
+                        <tr>  
+                            <td><label for="id_cantidad">Cantidad:</label></td>  
+                            <td>{{ form.cantidad }}</td>  
+                        </tr>  
+                    </tbody>  
+                </table>  
+                <button type="submit" class="btn btn-success">Guardar</button>  
+            </form>  
+            <a href="{% url 'listar_articulos' %}" class="btn btn-secondary mt-3">Volver a la lista</a>   
+        </div>  
+    </div> 
+    {% include 'footer.html' %}  
+{% endblock %}

@@ -1,0 +1,32 @@
+<!-- templates/logonApp/agregar_usuario.html -->  
+{% extends 'base.html' %}  
+{% load static %}  
+{% block content %}  
+<div class="container mt-5">  
+    <h2>Agregar Nuevo Usuario</h2>  
+    <form method="POST">  
+        {% csrf_token %}  
+        <div class="mb-3">  
+            <label for="username" class="form-label">Nombre de Usuario</label>  
+            <input type="text" class="form-control" id="username" name="username" required>  
+        </div>  
+        <div class="mb-3">  
+            <label for="email" class="form-label">Email</label>  
+            <input type="email" class="form-control" id="email" name="email" required>  
+        </div>  
+        <div class="mb-3">  
+            <label for="password" class="form-label">Contraseña</label>  
+            <input type="password" class="form-control" id="password" name="password" required>  
+        </div>  
+        <div class="mb-3">  
+            <label for="is_superuser" class="form-label">Tipo de Usuario</label>  
+            <select class="form-select" id="is_superuser" name="is_superuser">  
+                <option value="True">Administrador</option>  
+                <option value="False" selected>Usuario Normal</option>  
+            </select>  
+        </div>  
+        <button type="submit" class="btn btn-primary">Agregar Usuario</button>  
+        <a href="{% url 'administrar_usuarios' %}" class="btn btn-secondary">Cancelar</a>  
+    </form>  
+</div>  
+{% endblock %}

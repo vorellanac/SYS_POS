@@ -1,0 +1,43 @@
+<!-- templates/logonApp/administrar_usuarios.html -->  
+{% extends 'base.html' %}  
+{% block content %}  
+
+<div class="container mt-5">  
+    <h2>Administración de Usuarios</h2>  
+    <div class="text-end mb-3">  
+        <a href="{% url 'agregar_usuario' %}" class="btn btn-success">Agregar Usuario</a>  <!-- Botón para agregar usuario -->  
+    </div>  
+    <table class="table table-striped">  
+        <thead>  
+            <tr>  
+                <th>Nombre de Usuario</th>  
+                <th>Email</th>  
+                <th>Tipo de Usuario</th>  
+                <th>Acciones</th>  
+            </tr>  
+        </thead>  
+        <tbody>  
+            {% for usuario in usuarios %}  
+                <tr>  
+                    <td>{{ usuario.username }}</td>  
+                    <td>{{ usuario.email }}</td>  
+                    <td>  
+                        {% if usuario.is_superuser %}  
+                            Administrador  
+                        {% else %}  
+                            Usuario Normal  
+                        {% endif %}  
+                    </td>  
+                    <td>  
+                        <a href="{% url 'editar_usuario' usuario.id %}" class="btn btn-info">Editar</a>  
+                        <a href="{% url 'eliminar_usuario' usuario.id %}" class="btn btn-danger">Eliminar</a>  
+                    </td>  
+                </tr>  
+            {% endfor %}  
+        </tbody>  
+    </table>  
+    <div class="text-center mt-4">  
+        <a href="{% url 'admin' %}" class="btn btn-secondary">Regresar al Menú de Administración</a>  
+    </div>  
+</div>  
+{% endblock %}

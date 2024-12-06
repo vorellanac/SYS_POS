@@ -1,0 +1,28 @@
+{% extends 'base.html' %}  
+
+{% block content %}  
+<div class="container mt-5">  
+    <h2 class="text-center">Bienvenido al Sistema de Ventas</h2>  
+    <p class="text-center">Por favor, inicie sesión o revise nuestros artículos para continuar.</p>  
+    
+    <form method="POST" action="{% url 'seleccionar_tipo_usuario' %}" class="mt-4">  
+        {% csrf_token %}  
+        <div class="form-group">  
+            <label for="user_type">Tipo de Usuario:</label>  
+            <select name="user_type" id="user_type" class="form-control">  
+                <option value="visita">Cliente</option>  
+                <option value="cliente">Administrador</option>                 
+            </select>  
+        </div>  
+        <button type="submit" class="btn btn-primary btn-block mt-3">Entrar</button>  
+    </form>  
+
+    <div class="text-center mt-4">  
+        <a href="{% url 'listar_articulos_sv' %}" class="btn btn-secondary">Ver Artículos Disponibles</a>  
+    </div>  
+</div>  
+
+<footer class="text-center mt-5">  
+    <p>&copy; 2024 Sistema de Ventas. Todos los derechos reservados.</p>  
+</footer>  
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}  
+{% load static %}   
+{% block content %}  
+    {% include 'navbar.html' %}  
+    <div class="container mt-5">  
+        <div class="alert alert-success display-1 text-center">  
+            <img src="{% static 'images/venta.png' %}" width="100px" alt="Logo"> Proceso de compra  
+        </div>   
+
+        <div class="container">  
+            <h1>Seleccionar artículos para comprar</h1>  
+
+            {% if error_message %}  
+                <div class="alert alert-danger">{{ error_message }}</div>  
+            {% endif %}  
+
+            <form method="POST">  
+                {% csrf_token %}  
+                <div class="mb-3">  
+                    <label for="search" class="form-label">Buscar producto por código o nombre:</label>  
+                    <input type="text" name="search" class="form-control" placeholder="Código o nombre del producto" required>  
+                </div>  
+                <button type="submit" class="btn btn-secondary">Buscar</button>  
+            </form>  
+
+            <br>  
+
+            {% if productos %}  
+                <form method="POST" action="{% url 'procesar_venta' %}">  
+                    {% csrf_token %}  
+                    <table class="table table-bordered">  
+                        <thead>  
+                            <tr>  
+                                <th>Seleccionar</th>  
+                                <th>Descripción</th>  
+                                <th>Cantidad disponible</th>  
+                                <th>Cantidad a vender</th>  
+                            </tr>  
+                        </thead>  
+                        <tbody>  
+                            {% for producto in productos %}  
+                                <tr>  
+                                    <td><input type="checkbox" name="productos" value="{{ producto.id }}"></td>  
+                                    <td>{{ producto.descripcion }}</td>  
+                                    <td>{{ producto.cantidad }}</td>  
+                                    <td>  
+                                        <input type="number" name="cantidad_{{ producto.id }}" min="1" max="{{ producto.cantidad }}" required>  
+                                        {% if producto.cantidad <= 0 %}  
+                                            <div class="text-danger">Sin stock</div>  
+                                        {% endif %}  
+                                    </td>  
+                                </tr>  
+                            {% endfor %}  
+                        </tbody>  
+                    </table>  
+                    <button type="submit" class="btn btn-success">Comprar</button>  
+                </form>  
+            {% else %}  
+                <p>No se encontraron productos.</p>  
+            {% endif %}  
+
+            <br>  
+            <a href="{% url 'index' %}" class="btn btn-danger">Cancelar</a>  
+        </div>   
+    </div>  
+    {% include 'footer.html' %}  
+{% endblock %}

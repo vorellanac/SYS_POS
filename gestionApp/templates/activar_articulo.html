@@ -1,0 +1,26 @@
+{% extends 'base.html' %}  
+{% load static %}  
+{% block content %}  
+{% include 'navbar.html' %}  
+
+<div class="container mt-5">
+    <div class="alert alert-success display-1 text-center">  
+        <img src="{% static 'images/venta.png' %}" width="100px" alt="Logo"> Administración inventario  
+    </div>  
+    <div class="card">  
+        <div class="card-header">  
+            <h1>Activar Artículo</h1>  
+        </div>  
+        <div class="card-body">  
+            <p>¿Estás seguro de que quieres activar el artículo "{{ articulo.descripcion }}"?</p>  
+            <form method="post">  
+                {% csrf_token %}  
+                <button type="submit" class="btn btn-success">Activar</button>  
+                <a href="{% url 'listar_articulos' %}" class="btn btn-secondary">Cancelar</a>  
+            </form>  
+        </div>  
+    </div>  
+</div>  
+
+{% include 'footer.html' %}  
+{% endblock %}  

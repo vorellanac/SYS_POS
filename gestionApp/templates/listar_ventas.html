@@ -1,0 +1,42 @@
+{% extends 'base.html' %}  
+{% load static %}  
+{% block content %}  
+{% include 'navbar.html' %}  
+<div class="container mt-5">   
+    <div class="container">  
+        <div class="alert alert-success display-1 text-center">  
+            <img src="{% static 'images/venta.png' %}" width="100px" alt="Logo"> Reportes  
+        </div>  
+        <h1>Informe de ventas realizadas</h1>  
+        
+        {% if total_ventas %}  
+            <table class="table table-bordered table-striped">  
+                <thead>  
+                    <tr>  
+                        <th>Código</th>  
+                        <th>Descripción</th>  
+                        <th>Cantidad</th>  
+                        <th>Total</th>  
+                    </tr>  
+                </thead>  
+                <tbody>  
+                    {% for venta in total_ventas %}  
+                    <tr>  
+                        <td>{{ venta.codigo }}</td>  
+                        <td>{{ venta.descripcion }}</td>  
+                        <td>{{ venta.cantidad }}</td>  
+                        <td>{{ venta.total }}</td>  
+                    </tr>  
+                    {% endfor %}  
+                </tbody>  
+            </table>  
+            <a href="{% url 'exportar_ventas_csv' %}" class="btn btn-success">Exportar a CSV</a>  <!-- Botón para exportar a CSV -->  
+        {% else %}  
+            <p>No hay ventas realizadas para mostrar.</p>  
+        {% endif %}  
+        
+        <a href="{% url 'listar_articulos' %}" class="btn btn-info">Volver a la lista de artículos</a>  
+    </div>  
+</div>  
+{% include 'footer.html' %}  
+{% endblock %}

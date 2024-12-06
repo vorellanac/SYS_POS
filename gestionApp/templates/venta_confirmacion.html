@@ -1,0 +1,43 @@
+{% extends 'base.html' %}  
+{% load static %}  
+{% block content %}  
+    {% include 'navbar.html' %}  
+    <div class="container mt-5">   
+        <div class="alert alert-success display-1 text-center">  
+            <img src="{% static 'images/venta.png' %}" width="100px" alt="Logo"> Menú de confirmación   
+        </div>   
+        <h1>Venta Realizada</h1>  
+        
+        <table class="table table-bordered">  
+            <thead>  
+                <tr>  
+                    <th>Descripción:</th>  
+                    <th>Valor:</th>  
+                </tr>  
+            </thead>  
+            <tbody>                
+                <tr>  
+                    <td>Fecha:</td>  
+                    <td>{{ fecha }}</td>  
+                </tr>  
+                <tr>  
+                    <td>Total:</td>  
+                    <td>{{ total }}</td>  
+                </tr>  
+            </tbody>  
+        </table>  
+
+        <h1>¡Gracias por su compra {{ user.username }}, usted será rederigido a la pantalla de bienvenida!</h1>
+        
+         <a href="{% url 'listar_articulos_sv' %}" class="btn btn-info">Comprar otro articulo</a>
+    </div>  
+
+    <script>  
+        // Redirigir automáticamente después de 10 segundos  
+        setTimeout(function() {  
+            window.location.href = "{% url 'index' %}";  
+        }, 7000); // 7000 milisegundos = 7 segundos  
+    </script>  
+
+    {% include 'footer.html' %}  
+{% endblock %}

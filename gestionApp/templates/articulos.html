@@ -1,0 +1,139 @@
+<!DOCTYPE html>  
+<html lang="es">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Gestión de Artículos</title>  
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Incluye jQuery -->  
+</head>  
+<body>  
+    <h1>Gestión de Artículos</h1>  
+
+    <h2>Lista de Artículos</h2>  
+    <table>  
+        <thead>  
+            <tr>  
+                <th>Código</th>  
+                <th>Descripción</th>  
+                <th>Categoría</th>  
+                <th>Precio</th>  
+                <th>Cantidad</th>  
+                <th>Acciones</th>  
+            </tr>  
+        </thead>  
+        <tbody id="articulo-list">  
+            <!-- Aquí se llenarán los artículos -->  
+        </tbody>  
+    </table>  
+
+    <!-- Formulario de Edición -->  
+    <div id="edit-form" style="display:none;">  
+        <h2>Editar Artículo</h2>  
+        <form id="form-edit">  
+            <input type="hidden" id="edit-id">  
+            <label for="edit-codigo">Código:</label>  
+            <input type="number" id="edit-codigo" required>  
+            <label for="edit-descripcion">Descripción:</label>  
+            <input type="text" id="edit-descripcion" required>  
+            <label for="edit-categoria">Categoría:</label>  
+            <input type="text" id="edit-categoria" required>  
+            <label for="edit-precio">Precio:</label>  
+            <input type="number" id="edit-precio" step="0.01" required>  
+            <label for="edit-cantidad">Cantidad:</label>  
+            <input type="number" id="edit-cantidad" required>  
+            <button type="submit">Actualizar</button>  
+        </form>  
+    </div>  
+
+    <script>  
+        // Función para cargar artículos desde la API  
+        async function loadArticulos() {  
+            const response = await fetch('/api/articulos/');  
+            const articulos = await response.json();  
+            const listElement = document.getElementById('articulo-list');  
+
+            listElement.innerHTML = ''; // Limpiar la lista antes de cargar  
+
+            articulos.forEach(articulo => {  
+                const row = document.createElement('tr');  
+                row.innerHTML = `  
+                    <td>${articulo.codigo}</td>  
+                    <td>${articulo.descripcion}</td>  
+                    <td>${articulo.categoria}</td>  
+                    <td>${articulo.precio}</td>  
+                    <td>${articulo.cantidad}</td>  
+                    <td>  
+                        <button onclick="getArticulo(${articulo.id})">Ver</button>  
+                        <button onclick="showEditForm(${articulo.id})">Editar</button>  
+                        <button onclick="deleteArticulo(${articulo.id})">Eliminar</button>  
+                    </td>  
+                `;  
+                listElement.appendChild(row);  
+            });  
+        }  
+
+        // Función para obtener un artículo  
+        async function getArticulo(id) {  
+            const response = await fetch(`/api/articulos/${id}/`);  
+            const articulo = await response.json();  
+            alert(`Código: ${articulo.codigo}\nDescripción: ${articulo.descripcion}\nCategoría: ${articulo.categoria}\nPrecio: ${articulo.precio}\nCantidad: ${articulo.cantidad}`);  
+        }  
+
+        // Función para mostrar el formulario de edición  
+        async function showEditForm(id) {  
+            const response = await fetch(`/api/articulos/${id}/`);  
+            const articulo = await response.json();  
+
+            // Rellenar el formulario con los datos del artículo  
+            document.getElementById('edit-id').value = articulo.id;  
+            document.getElementById('edit-codigo').value = articulo.codigo;  
+            document.getElementById('edit-descripcion').value = articulo.descripcion;  
+            document.getElementById('edit-categoria').value = articulo.categoria;  
+            document.getElementById('edit-precio').value = articulo.precio;  
+            document.getElementById('edit-cantidad').value = articulo.cantidad;  
+
+            // Mostrar el formulario  
+            document.getElementById('edit-form').style.display = 'block';  
+        }  
+
+        // Manejar el envío del formulario de edición  
+        document.getElementById('form-edit').addEventListener('submit', async function(event) {  
+            event.preventDefault(); // Evitar el envío del formulario por defecto  
+
+            const id = document.getElementById('edit-id').value;  
+            const updatedArticulo = {  
+                codigo: document.getElementById('edit-codigo').value,  
+                descripcion: document.getElementById('edit-descripcion').value,  
+                categoria: document.getElementById('edit-categoria').value,  
+                precio: document.getElementById('edit-precio').value,  
+                cantidad: document.getElementById('edit-cantidad').value,  
+                is_active: true // O el valor que desees  
+            };  
+
+            await fetch(`/api/articulos/${id}/`, {  
+                method: 'PUT',  
+                headers: {  
+                    'Content-Type': 'application/json',  
+                },  
+                body: JSON.stringify(updatedArticulo),  
+            });  
+
+            loadArticulos(); // Recargar la lista después de actualizar  
+            document.getElementById('edit-form').style.display = 'none'; // Ocultar el formulario  
+        });  
+
+        // Función para eliminar un artículo  
+        async function deleteArticulo(id) {  
+            if (confirm('¿Estás seguro de que deseas eliminar este artículo?')) {  
+                await fetch(`/api/articulos/${id}/`, {  
+                    method: 'DELETE',  
+                });  
+                loadArticulos(); // Recargar la lista después de eliminar  
+            }  
+        }  
+
+        // Cargar artículos al inicio  
+        loadArticulos();  
+    </script>  
+</body>  
+</html>

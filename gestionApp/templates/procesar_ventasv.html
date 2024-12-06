@@ -1,0 +1,36 @@
+{% extends 'base.html' %}  
+{% load static %}   
+
+{% block content %}  
+    {% include 'navbar.html' %}  
+
+    <div class="container mt-5">  
+        <div class="alert alert-success display-1 text-center">  
+            <img src="{% static 'images/venta.png' %}" width="100px" alt="Logo"> Venta Procesada   
+        </div>   
+
+        <div class="container">  
+            <h1>Confirmación de Venta</h1>  
+
+            {% if error_message %}  
+                <div class="alert alert-danger">{{ error_message }}</div>  
+            {% endif %}  
+
+            {% if total %}  
+                <div class="alert alert-success">  
+                    <h4 class="text-center">¡Gracias por su compra!</h4>  
+                    <p class="text-center">El total de la venta es: <strong>${{ total }}</strong></p>  
+                    <p class="text-center">Fecha de la venta: {{ fecha }}</p>  
+                </div>  
+            {% else %}  
+                <div class="alert alert-warning text-center">  
+                    <p>No se ha procesado ninguna venta.</p>  
+                </div>  
+            {% endif %}  
+
+            <a href="{% url 'listar_articulos' %}" class="btn btn-danger">Volver a la lista de artículos</a>  
+        </div>   
+    </div>  
+
+    {% include 'footer.html' %}  
+{% endblock %}
